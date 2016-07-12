@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :learnables
+
   resources :content_images
 
   resources :categories
