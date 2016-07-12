@@ -1,29 +1,40 @@
-<h1>Listing accounts</h1>
-
-<table>
+<%- model_class = Account -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => Account %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Display name</th>
-      <th>Login code</th>
-      <th>Group</th>
-      <th colspan="3"></th>
+      <th>ID</th>
+      <th><%= model_class.human_attribute_name(:display_name) %></th>
+      <th><%= model_class.human_attribute_name(:login_code) %></th>
+      <th><%= model_class.human_attribute_name(:group) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @accounts.each do |account| %>
       <tr>
+        <td><%= account.id %></td>
         <td><%= account.display_name %></td>
         <td><%= account.login_code %></td>
         <td><%= account.group %></td>
-        <td><%= link_to 'Show', account %></td>
-        <td><%= link_to 'Edit', edit_account_path(account) %></td>
-        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%=l account.created_at, format: :long %></td>
+        <td>
+          <%= link_to account_path(account), :class => 'btn btn-xs', :title => "#{ t('.show', :default => t('helpers.links.show')) }" do %>
+            <%= glyph 'info-sign' %>
+            <%= glyph 'pencil' %>
+          <%- end -%>
+          <%= link_to account_path(account), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs', :title => "#{ t('.destroy', :default => t('helpers.links.destroy')) }" do %>
+            <%= glyph 'remove' %>
+          <%- end -%>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Account', new_account_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_account_path,
+            :class => 'btn btn-primary' %>
